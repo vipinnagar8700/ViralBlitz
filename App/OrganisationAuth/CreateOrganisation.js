@@ -42,19 +42,9 @@ const CreateOrganisation = () => {
 
   const handleNavigateToCreateOrganisation = () => {
     // Form validation
-    if (!name.trim() || !email.trim() || !password.trim() || !confirmPassword.trim()) {
-      
-      setNameError(true); // Set nameError to true to show red border
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setNameError(true);
-      return;
-    }
-    setNameError(false);
+   
     // Navigate to the next screen if all validations pass
-    navigation.navigate("Interest");
+    navigation.navigate("AddMembers");
   };
 
   return (

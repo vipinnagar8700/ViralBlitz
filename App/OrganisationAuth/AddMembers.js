@@ -50,21 +50,7 @@ const AddMembers = () => {
 
   const handleNavigateToAddMembers = () => {
     // Form validation
-    if (
-      !name.trim() ||
-      !email.trim() ||
-      !password.trim() ||
-      !confirmPassword.trim()
-    ) {
-      setNameError(true); // Set nameError to true to show red border
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setNameError(true);
-      return;
-    }
-    setNameError(false);
+   
     // Navigate to the next screen if all validations pass
     navigation.navigate("Interest");
   };
@@ -80,11 +66,13 @@ const AddMembers = () => {
             <AntDesign name="left" size={18} color={Colors.MEMBERCOL} />
           </TouchableOpacity>
           <Text style={styles.headerText}> Add members</Text>
+          <TouchableOpacity onPress={handleNavigateToAddMembers}>
           <Text style={{ color: Colors.MEMBERCOL }}>Skip</Text>
+
+          </TouchableOpacity>
         </View>
         <View></View>
         {/* Display selected image */}
-
         {/* Button to pick image */}
 
         <View style={styles.inputBox}>

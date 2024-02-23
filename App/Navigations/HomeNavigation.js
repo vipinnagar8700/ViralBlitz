@@ -39,20 +39,17 @@ const HomeNavigation = () => {
         component={AddMembers}
         options={{ screenOptions: false }}
       /> 
-    
       <Stack.Screen
         name="Home"
         component={Home}
         options={{ screenOptions: true }}
       />
-    
-
      
-      {/* <Stack.Screen
+      <Stack.Screen
         name="Interest"
         component={Interest}
         options={{ screenOptions: false }}
-      /> */}
+      />
      <Stack.Screen
         name="HomeMain"
         component={HomeMain}

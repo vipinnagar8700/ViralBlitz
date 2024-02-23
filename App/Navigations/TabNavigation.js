@@ -1,7 +1,6 @@
 import React from "react";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import Home from "../Screens/Home";
-import MainHome from "../Screens/MainHome";
 import Posts from "../Components/MainScreens/Posts";
 import NotificationScreen from "../Components/MainScreens/NotificationScreen";
 import AddMembers from "../OrganisationAuth/AddMembers";

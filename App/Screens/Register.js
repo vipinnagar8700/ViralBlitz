@@ -54,7 +54,7 @@ const Register = () => {
     }
     setNameError(false);
     // Navigate to the next screen if all validations pass
-    navigation.navigate("Interest");
+    navigation.navigate("CreateOrganisation");
   };
 
   return (

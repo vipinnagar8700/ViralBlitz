@@ -245,7 +245,7 @@ const Interest = () => {
       const redirectUrl = await WebBrowser.openAuthSessionAsync(
         "https://api.pinterest.com/oauth/?response_type=code&client_id=1113726320258520066&redirect_uri=https://syxp3jdhbb.execute-api.us-east-1.amazonaws.com/dev/linkedin/login&scope=read_public,write_public"
       );
-
+console.log(redirectUrl,'redirectUrl')
       // Handle the redirect URL
       if (redirectUrl) {
         console.log("Redirect URL:", redirectUrl);

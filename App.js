@@ -25,7 +25,7 @@ const App = () => {
     <SafeAreaView style={styles.container}>
       <StatusBar hidden />
       <NavigationContainer>
-       <TabNavigation/>
+      <HomeNavigation/>
       </NavigationContainer>
     </SafeAreaView>
   )
