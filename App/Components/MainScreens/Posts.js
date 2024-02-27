@@ -7,16 +7,21 @@ import {
   FlatList,
   StyleSheet,
   Dimensions,
-  TextInput,ScrollView
+  TextInput,
+  ScrollView,
+  Button,
 } from "react-native";
 import { MaterialIcons } from "@expo/vector-icons";
+import { Feather } from "@expo/vector-icons";
 import CheckBox from "react-native-checkbox";
+import * as ImagePicker from "expo-image-picker";
 
 import Colors from "../../../assets/Shared/Colors";
+import Checkbox from "../../Fields/Checkbox";
 
 const Posts = () => {
   const [textInputValue, setTextInputValue] = useState("");
-  const maxCharacters = 500;
+  const maxCharacters = 2200;
   const [isChecked, setIsChecked] = useState(false);
 
   const toggleCheckbox = () => {
@@ -26,15 +31,43 @@ const Posts = () => {
     setTextInputValue(text);
   };
 
+  const [image, setImage] = useState(null);
+
+  const pickImage = async () => {
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+  };
+
+  const data = [
+    { id: 1, name: "Health" },
+    { id: 2, name: "Education" },
+    { id: 3, name: "Technology" },
+    { id: 4, name: "Food" },
+    { id: 5, name: "Fitness" },
+    { id: 6, name: "Fashion" },
+    { id: 7, name: "Travel" },
+    { id: 8, name: "Finance" },
+    { id: 9, name: "Music" },
+    { id: 10, name: "Art" },
+  ];
+
   return (
-    <View>
+    <View style={{ backgroundColor: Colors.white }}>
       <View style={styles.header}>
         <TouchableOpacity>
           <MaterialIcons
             name="arrow-back-ios"
             size={20}
             style={{ fontFamily: "appfont-bold" }}
-            color="#f7a1a8"
+            color={Colors.MEMBERCOL}
           />
         </TouchableOpacity>
         <Text style={styles.headerText}>Create post</Text>
@@ -45,22 +78,54 @@ const Posts = () => {
         showsHorizontalScrollIndicator={false}
       >
         <View style={{ padding: 20 }}>
-          <Text style={styles.headerTexta}>
-            Pizza hut campaign - Christmas 2024
-          </Text>
-          <View style={{ paddingVertical: 10 }}>
-            <Image
-              source={require("../../../assets/images/Food.jpg")}
+          {!image && ( // Render TouchableOpacity only if image is not selected
+            <TouchableOpacity
               style={{
                 width: Dimensions.get("screen").width * 0.89,
-                height: 270,
+                height: 170,
+                color: Colors.Black,
                 borderRadius: 10,
+                backgroundColor: Colors.MAIN,
+                justifyContent: "center", // Center vertically
+                alignItems: "center", // Center horizontally
                 margin: 2,
               }}
+              onPress={pickImage}
+            >
+              <Feather name="upload" size={24} color={Colors.MEMBERCOL} />
+              <Text
+                style={{
+                  color: Colors.MEMBERCOL,
+                  fontFamily: "appfont-light",
+                  fontSize: 20,
+                }}
+              >
+                Add Media
+              </Text>
+            </TouchableOpacity>
+          )}
+          {image && ( // Conditionally render the image if it exists
+            <View style={{}}>
+              <Image
+                source={{ uri: image }}
+                style={{
+                  width: Dimensions.get("screen").width * 0.89,
+                  height: 270,
+                  borderRadius: 10,
+                  margin: 2,
+                }}
+              />
+            </View>
+          )}
+          <View style={{ marginVertical: 10 }}>
+            <Text style={styles.label}>Campaign Name</Text>
+            <TextInput
+              style={styles.input}
+              multiline
+              placeholder="Enter campaign name"
             />
-          </View>
-          <View>
             <Text style={styles.label}>Caption</Text>
+
             <TextInput
               style={{
                 borderColor: "gray",
@@ -72,11 +137,11 @@ const Posts = () => {
                 marginVertical: 1,
                 borderWidth: 1,
                 borderColor: Colors.MAIN,
-                color: Colors.MAIN,
+                color: Colors.Black,
                 backgroundColor: Colors.white,
               }}
               multiline
-              placeholder="Type your message here..."
+              placeholder="Enter caption here..."
               onChangeText={handleChangeText}
               value={textInputValue}
               maxLength={maxCharacters}
@@ -87,64 +152,63 @@ const Posts = () => {
             >
               {textInputValue.length}/{maxCharacters} characters
             </Text>
+            <Text style={styles.label}>Tags (up to 3)</Text>
+            <TextInput
+              style={styles.input}
+              multiline
+              placeholder="Enter relevant tags"
+            />
+            <View style={{ flexDirection: "row", gap: 10, marginTop: 10, flexWrap:'wrap'}}>
+              {data &&
+                data.map((item) => (
+                  <View key={item.id} style={styles.tag}>
+                    <Text>{item.name}</Text>
+                  </View>
+                ))}
+            </View>
             <Text style={styles.label}>Post to</Text>
-            <TextInput style={styles.input} multiline placeholder="All" />
+            <TextInput
+              style={styles.input}
+              multiline
+              placeholder="All"
+            />
             <View
               style={{
                 flexDirection: "row",
                 justifyContent: "space-between",
-                marginTop: 5,
+                marginTop: 10,
               }}
             >
-              <Text style={styles.label}>Schedule for later</Text>
-              <CheckBox
-                checked={isChecked}
-                onChange={toggleCheckbox}
-                label={false}
-                style={{ backgroundColor: "blue", tintColor: "white" }} // Adjust colors as needed
-              />
+              <Text style={styles.label}>Blitz campaign</Text>
+              <Checkbox />
             </View>
-            <View
-              style={{
-                display: "flex",
-                flexDirection: "row",
-                gap: 27,
-              }}
-            >
-              <View>
-                <Text style={styles.label}>Date </Text>
-                <TextInput
-                  style={styles.input}
-                  placeholder="MM/DD/YYYY"
-                  keyboardType="numeric"
-                />
-              </View>
-              <View>
-                <Text style={styles.label}>Time</Text>
-                <TextInput
-                  style={[styles.input, { width: "100%" }]}
-                  placeholder="Select Gender             v"
-                  keyboardType="numeric"
-                />
-              </View>
-            </View>
+            <Text style={{ fontFamily: "appfont-light", fontSize: 12 }}>
+              Blitzing a campaign makes it available to our members for sharing
+              in their social media platforms.
+            </Text>
           </View>
-          <TouchableOpacity style={styles.button} >
-          <Text style={styles.buttonText}>Save Draft</Text>
-        </TouchableOpacity>
+          <TouchableOpacity style={styles.button}>
+            <Text style={styles.buttonText}>Create Campaign</Text>
+          </TouchableOpacity>
         </View>
-        
-       
-
       </ScrollView>
     </View>
   );
 };
 
 const styles = StyleSheet.create({
+  tag: {
+    fontFamily: "appfont-light",
+    flexDirection: "row",
+    borderColor: Colors.MAIN,
+    borderWidth: 1,
+    padding: 6,
+    borderRadius: 15,
+
+  },
   label: {
     fontSize: 16,
-    marginTop: 3,
+    marginTop: 6,
     marginBottom: 4,
     fontFamily: "appfont-medium",
   },
@@ -153,16 +217,17 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    padding: 20,
+    paddingHorizontal: 20,
+    paddingVertical: 10,
   },
   headerText: {
     fontSize: 22,
-    color: "#000000",
+    color: Colors.Black,
     fontFamily: "appfont-medium",
   },
   headerTexta: {
     fontSize: 18,
-    color: "#000000",
+    color: Colors.Black,
     fontFamily: "appfont-medium",
   },
   input: {
@@ -172,21 +237,21 @@ const styles = StyleSheet.create({
     padding: 15,
     borderColor: Colors.MAIN,
     borderRadius: 8,
-    color: Colors.MAIN,
+    color: Colors.Black,
     backgroundColor: Colors.white,
   },
   button: {
     width: "100%",
-    backgroundColor: "#9399AA",
-    borderColor: "#9399AA",
+    backgroundColor: "transparent",
+    borderColor: Colors.MEMBERCOL,
     borderWidth: 1,
     padding: 15,
     borderRadius: 8,
     marginVertical: 10,
-    marginBottom:70
+    marginBottom: 70,
   },
   buttonText: {
-    color: Colors.white,
+    color: Colors.MEMBERCOL,
     fontSize: 20,
     textAlign: "center",
     fontFamily: "appfont-medium",
